@@ -1,0 +1,167 @@
+{
+  "evaluation_timestamp": "2026-09-05T05:23:46.045966+00:00",
+  "status": "COMPLETED",
+  "sample_count": {
+    "rag_test_cases": 4,
+    "issue_test_cases": 7,
+    "duplicate_test_cases": 2,
+    "risk_test_cases": 4
+  },
+  "rag_metrics": {
+    "recall_at_1": 0.5,
+    "recall_at_3": 1.0,
+    "recall_at_5": 1.0,
+    "precision_at_1": 1.0,
+    "precision_at_3": 0.6667,
+    "precision_at_5": 0.4,
+    "mrr": 1.0,
+    "context_relevance": 1.0,
+    "answer_relevance": 0.5991,
+    "faithfulness": 0.25
+  },
+  "ml_metrics": {
+    "issue_classification": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "confusion_matrix": {
+        "classes": [
+          "Bug",
+          "Feature Request",
+          "Documentation",
+          "Question",
+          "Enhancement",
+          "Performance",
+          "Security"
+        ],
+        "matrix": {
+          "Bug": {
+            "Bug": 1,
+            "Feature Request": 0,
+            "Documentation": 0,
+            "Question": 0,
+            "Enhancement": 0,
+            "Performance": 0,
+            "Security": 0
+          },
+          "Feature Request": {
+            "Bug": 0,
+            "Feature Request": 1,
+            "Documentation": 0,
+            "Question": 0,
+            "Enhancement": 0,
+            "Performance": 0,
+            "Security": 0
+          },
+          "Documentation": {
+            "Bug": 0,
+            "Feature Request": 0,
+            "Documentation": 1,
+            "Question": 0,
+            "Enhancement": 0,
+            "Performance": 0,
+            "Security": 0
+          },
+          "Question": {
+            "Bug": 0,
+            "Feature Request": 0,
+            "Documentation": 0,
+            "Question": 1,
+            "Enhancement": 0,
+            "Performance": 0,
+            "Security": 0
+          },
+          "Enhancement": {
+            "Bug": 0,
+            "Feature Request": 0,
+            "Documentation": 0,
+            "Question": 0,
+            "Enhancement": 1,
+            "Performance": 0,
+            "Security": 0
+          },
+          "Performance": {
+            "Bug": 0,
+            "Feature Request": 0,
+            "Documentation": 0,
+            "Question": 0,
+            "Enhancement": 0,
+            "Performance": 1,
+            "Security": 0
+          },
+          "Security": {
+            "Bug": 0,
+            "Feature Request": 0,
+            "Documentation": 0,
+            "Question": 0,
+            "Enhancement": 0,
+            "Performance": 0,
+            "Security": 1
+          }
+        }
+      }
+    },
+    "severity_prediction": {
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "confusion_matrix": {
+        "classes": [
+          "LOW",
+          "MEDIUM",
+          "HIGH",
+          "CRITICAL"
+        ],
+        "matrix": {
+          "LOW": {
+            "LOW": 2,
+            "MEDIUM": 0,
+            "HIGH": 0,
+            "CRITICAL": 0
+          },
+          "MEDIUM": {
+            "LOW": 0,
+            "MEDIUM": 2,
+            "HIGH": 0,
+            "CRITICAL": 0
+          },
+          "HIGH": {
+            "LOW": 0,
+            "MEDIUM": 0,
+            "HIGH": 2,
+            "CRITICAL": 0
+          },
+          "CRITICAL": {
+            "LOW": 0,
+            "MEDIUM": 0,
+            "HIGH": 0,
+            "CRITICAL": 1
+          }
+        }
+      }
+    },
+    "duplicate_detection": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "code_risk": {
+      "accuracy": 1.0,
+      "brier_score_calibration": 0.075,
+      "calibration_status": "WELL_CALIBRATED"
+    }
+  },
+  "llm_metrics": {
+    "citation_correctness": 1.0,
+    "groundedness": 0.125,
+    "hallucination_rate": 0.875,
+    "answer_relevance": 0.5991
+  },
+  "performance_latency": {
+    "ingestion_time_s": 12.4,
+    "embedding_time_ms": 85.0,
+    "retrieval_latency_ms": 28.5,
+    "reranking_latency_ms": 14.2,
+    "llm_latency_ms": 310.0,
+    "end_to_end_latency_ms": 437.7
+  }
+}
