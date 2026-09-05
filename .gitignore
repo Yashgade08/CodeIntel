@@ -51,3 +51,13 @@ frontend/node_modules/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Workspace & Vectorstore Data
+backend/workspace/
+backend/data/
+backend/storage/
+workspace/
+data/
+storage/
+*.db
+
