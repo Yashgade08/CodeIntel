@@ -1,11 +1,11 @@
 """
-FastAPI application entry point.
+FastAPI application entry point for CodeIntel.
 
-Creates and configures the FastAPI app with:
+Configured with:
 - CORS middleware
-- Lifespan event handlers (DB, Redis init/teardown)
 - Exception handlers
-- API v1 router
+- Standalone GitHub validation endpoint (Step 1)
+- Health check endpoint
 """
 
 from __future__ import annotations
@@ -15,9 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 
 from app.core.config import get_settings
-from app.core.events import lifespan
 from app.core.exceptions import register_exception_handlers
-from app.api.v1.router import router as v1_router
 from app.api.github_validate import router as github_validate_router
 
 
@@ -26,14 +24,13 @@ def create_app() -> FastAPI:
     settings = get_settings()
 
     app = FastAPI(
-        title=settings.APP_NAME,
-        version=settings.APP_VERSION,
+        title="CodeIntel",
+        version="0.1.0",
         description="GitHub Repository Intelligence & Codebase Copilot",
         docs_url="/docs",
         redoc_url="/redoc",
         openapi_url="/openapi.json",
         default_response_class=ORJSONResponse,
-        lifespan=lifespan,
     )
 
     # ── Middleware ────────────────────────────────────────────────────────
@@ -48,11 +45,12 @@ def create_app() -> FastAPI:
     # ── Exception handlers ───────────────────────────────────────────────
     register_exception_handlers(app)
 
-    # ── Routers ──────────────────────────────────────────────────────────
-    app.include_router(v1_router, prefix=settings.API_V1_PREFIX)
-    app.include_router(v1_router, prefix="/api")
+    # ── Health check ─────────────────────────────────────────────────────
+    @app.get("/api/health")
+    async def health_check():
+        return {"status": "ok", "service": "codeintel-backend"}
 
-    # ── GitHub URL validation (standalone, no DB/token required) ─────────
+    # ── Step 1: GitHub URL validation ────────────────────────────────────
     app.include_router(github_validate_router)
 
     return app
