@@ -303,6 +303,50 @@ Codeintel/
 
 ## 🚀 Quickstart & Setup Guide
 
+### ⚡ Quick Run Commands
+
+If dependencies are already installed, run the services using either the one-click scripts or two separate terminals:
+
+#### Option A: One-Click Launchers (Windows)
+* **Double-click `start.bat`** or run in terminal:
+  ```cmd
+  .\start.bat
+  ```
+* **Or run in PowerShell**:
+  ```powershell
+  .\start.ps1
+  ```
+
+#### Option B: Separate Terminals
+
+**Terminal 1 — Backend (FastAPI)**
+```bash
+cd backend
+
+# Windows (PowerShell)
+.\.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+# Windows (Command Prompt)
+.\.venv\Scripts\activate.bat
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+# macOS / Linux
+source .venv/bin/activate
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+> **Backend URL**: `http://127.0.0.1:8000`  
+> **API Documentation (Swagger UI)**: `http://127.0.0.1:8000/docs`
+
+**Terminal 2 — Frontend (Vite + React)**
+```bash
+cd frontend
+npm run dev
+```
+> **Frontend URL**: `http://localhost:5173`
+
+---
+
 ### Prerequisites
 * **Git**: Installed and available on system `PATH`
 * **Python**: `3.10` or higher (Python `3.11` recommended)
@@ -365,18 +409,38 @@ CHROMA_PERSIST_DIRECTORY=./data/chroma
 ```
 
 #### Launch Backend Server
-```bash
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
-* Backend API Documentation: `http://127.0.0.1:8000/docs`
+
+Run the backend server using Uvicorn:
+
+* **Windows (PowerShell)**:
+  ```powershell
+  .\.venv\Scripts\Activate.ps1
+  uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+  ```
+  *(Or directly without activating venv: `.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000`)*
+
+* **Windows (Command Prompt / CMD)**:
+  ```cmd
+  .\.venv\Scripts\activate.bat
+  uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+  ```
+
+* **macOS / Linux**:
+  ```bash
+  source .venv/bin/activate
+  uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+  ```
+
+* **Backend API URL**: `http://127.0.0.1:8000`
+* **Interactive API Documentation (Swagger)**: `http://127.0.0.1:8000/docs`
 
 ---
 
 ### Step 3: Frontend Setup
-In a new terminal window:
+Open a **second terminal window**:
 
 ```bash
-cd ../frontend
+cd frontend
 
 # Install dependencies (React 19, Mermaid, Vite, Tailwind)
 npm install
@@ -384,7 +448,8 @@ npm install
 # Start Vite development server
 npm run dev
 ```
-* Frontend Dashboard: `http://localhost:5173`
+
+* **Frontend Dashboard URL**: `http://localhost:5173`
 
 ---
 
