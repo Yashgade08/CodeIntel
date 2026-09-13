@@ -15,6 +15,7 @@ from app.api.github_index import router as github_index_router
 from app.api.github_bugs import router as github_bugs_router
 from app.api.github_source import router as github_source_router
 from app.api.github_graph import router as github_graph_router
+from app.api.github_file_structure import router as github_file_structure_router
 
 
 def create_app() -> FastAPI:
@@ -56,6 +57,7 @@ def create_app() -> FastAPI:
     app.include_router(github_bugs_router)
     app.include_router(github_source_router)
     app.include_router(github_graph_router)
+    app.include_router(github_file_structure_router)
 
     return app
 

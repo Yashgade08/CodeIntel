@@ -6,57 +6,148 @@
   :root {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
+    
+    /* CodeIntel Design Tokens */
+    --surface-bg: #070b14;
+    --surface-card: #0d1527;
+    --surface-card-elevated: #111c34;
+    --surface-subtle: #162442;
+    --surface-input: #0a0f1d;
+    
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-card: rgba(255, 255, 255, 0.12);
+    --border-highlight: rgba(56, 189, 248, 0.4);
+    
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-accent: #38bdf8;
+  }
+
+  * {
+    border-color: var(--border-subtle);
   }
 
   body {
-    @apply bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950 min-h-screen font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: var(--surface-bg);
+    color: var(--text-secondary);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+  }
+
+  code, pre, kbd {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
 }
 
-/* Glassmorphism & Accent Utilities */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Background Atmosphere */
+.codeintel-bg-glow {
+  background-image: 
+    radial-gradient(ellipse 90% 60% at 50% -15%, rgba(14, 165, 233, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 20%, rgba(99, 102, 241, 0.10), transparent 60%),
+    radial-gradient(ellipse 50% 30% at 15% 40%, rgba(56, 189, 248, 0.08), transparent 50%);
+  background-attachment: fixed;
 }
 
-.glass-panel-hover {
+/* Glassmorphism & Surface Utilities */
+.glass-panel {
+  background: rgba(13, 21, 39, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
+}
+
+.glass-panel-elevated {
+  background: rgba(17, 28, 52, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.7);
+}
+
+.glass-input {
+  background: #090e1a;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
   transition: all 0.2s ease-in-out;
 }
-.glass-panel-hover:hover {
-  border-color: rgba(56, 189, 248, 0.3);
-  box-shadow: 0 0 20px -5px rgba(56, 189, 248, 0.15);
+
+.glass-input:focus {
+  border-color: #38bdf8;
+  background: #0d1527;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), 0 0 20px rgba(56, 189, 248, 0.15);
 }
 
+/* Accent Glows */
 .glow-cyan {
-  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.25);
+  box-shadow: 0 0 25px -4px rgba(56, 189, 248, 0.35);
 }
 
 .glow-indigo {
-  box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 25px -4px rgba(99, 102, 241, 0.35);
 }
 
-/* Custom Scrollbars */
+.glow-emerald {
+  box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.35);
+}
+
+.glow-rose {
+  box-shadow: 0 0 25px -4px rgba(244, 63, 94, 0.35);
+}
+
+/* Keyframes & Animations */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.05);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom High-Contrast Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #060913;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
+  background: #25334d;
+  border-radius: 6px;
+  border: 2px solid #060913;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #3b4e72;
 }
 
 /* React Flow Dark Canvas overrides */
 .react-flow__renderer {
-  background-color: #030712 !important;
+  background-color: #050811 !important;
 }
 .react-flow__node {
   border-radius: 8px;
@@ -70,15 +161,15 @@
 }
 .react-flow__controls {
   background: #0f172a !important;
-  border: 1px solid #1e293b !important;
+  border: 1px solid #27354f !important;
   border-radius: 8px !important;
 }
 .react-flow__controls-button {
   background: #0f172a !important;
-  border-bottom: 1px solid #1e293b !important;
-  fill: #94a3b8 !important;
+  border-bottom: 1px solid #27354f !important;
+  fill: #cbd5e1 !important;
 }
 .react-flow__controls-button:hover {
   background: #1e293b !important;
-  fill: #f8fafc !important;
+  fill: #ffffff !important;
 }

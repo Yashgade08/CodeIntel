@@ -1,57 +1,355 @@
-# ⚡ CodeIntel: Repository Intelligence & AI Bug Detection Engine
+# ⚡ CodeIntel — Autonomous AI Code Review & Repository Intelligence Engine
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React 19](https://img.shields.io/badge/React-19.0-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.0+-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
 [![ChromaDB](https://img.shields.io/badge/Vectorstore-ChromaDB-FF6F00.svg)](https://www.trychroma.com/)
 [![Sentence-Transformers](https://img.shields.io/badge/Embeddings-MiniLM--L6--v2-yellow.svg)](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 [![Mermaid.js](https://img.shields.io/badge/Diagrams-Mermaid.js-ff3670.svg?logo=mermaid&logoColor=white)](https://mermaid.js.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-**CodeIntel** is an autonomous, production-grade GitHub repository intelligence engine that clones, parses, visualizes, indexes, and conducts grounded AI code reviews on entire software projects.
-
-Combining **local Git isolation**, **AST-aware code chunking**, **Sentence-Transformers dense embeddings**, **persistent ChromaDB vector storage**, **interactive Mermaid.js architecture diagrams**, and **multi-provider LLM RAG pipelines**, CodeIntel discovers architectural defects, security vulnerabilities, and logic flaws with verified source code evidence.
+**CodeIntel** is an end-to-end, production-grade GitHub repository intelligence platform. It clones any public GitHub repository, visualizes its software architecture with interactive Mermaid diagrams, indexes code chunks into a persistent vector database, and uses multi-provider LLMs (Google Gemini, Groq, OpenAI) to perform grounded, evidence-backed code reviews and defect detection.
 
 ---
 
-## 📸 Visual Showcase & Platform Tour
+## 📑 Table of Contents
 
-### 1. Repository Intelligence & Workspace Management
-Enter any public GitHub repository URL. CodeIntel clones the repository into an isolated workspace, analyzes the folder hierarchy, categorizes files by language, and presents quick-switch access to recently cloned projects.
-
-![Repository Intelligence Dashboard](docs/images/01-repo-intelligence-dashboard.png)
-
-* **Isolated Workspace Provisioning**: Clones directly into sandboxed directories without polluting the host environment.
-* **Instant Project Statistics**: Total source files, directory counts, language distribution, and vector indexing status.
-* **Recent Workspaces Bar**: Single-click access to previously cloned repositories (`fastapi/fastapi`, `psf/requests`, `pallets/flask`, etc.) with detected framework tags.
-
----
-
-### 2. Interactive Mermaid.js Architecture & ChromaDB Vector Indexing
-CodeIntel detects the project’s underlying tech stack (FastAPI, React, Flask, Vite, Django, Go, etc.) and constructs an interactive, dark-themed topological flowchart of all modules, entrypoints, and configurations.
-
-![Mermaid Architecture Diagram & Vector Indexing](docs/images/02-mermaid-architecture-and-indexing.png)
-
-* **Topological Project Graph**: Categorizes modules by responsibility (`⚡ Backend`, `🌐 Frontend`, `🧪 Tests`, `📖 Documentation`, `⚙️ Config & Specs`).
-* **Interactive Diagram Controls**: Zoom In (`+15%`), Zoom Out (`-15%`), Reset Zoom (`100%`), and One-Click **📋 Copy Syntax** for documentation.
-* **High-Throughput Vector Indexing**: Chunks source files with exact line bounds and stores dense vector embeddings in persistent ChromaDB.
+- [⚡ At a Glance (30-Second Overview)](#-at-a-glance-30-second-overview)
+- [✨ Key Features](#-key-features)
+- [🚀 60-Second Quick Start (Beginner Friendly)](#-60-second-quick-start-beginner-friendly)
+- [📋 Complete Step-by-Step Installation](#-complete-step-by-step-installation)
+  - [Prerequisites](#prerequisites)
+  - [1. Clone Repository](#1-clone-repository)
+  - [2. Backend Setup (FastAPI & Vectorstore)](#2-backend-setup-fastapi--vectorstore)
+  - [3. Frontend Setup (React & Vite)](#3-frontend-setup-react--vite)
+- [🔑 Environment Configuration (`.env`)](#-environment-configuration-env)
+- [🖥️ How to Use CodeIntel (User Guide)](#️-how-to-use-codeintel-user-guide)
+- [❓ Troubleshooting & Common Issues](#-troubleshooting--common-issues)
+- [🏗️ System Architecture & RAG Pipeline](#️-system-architecture--rag-pipeline)
+- [📡 REST API Reference](#-rest-api-reference)
+- [🧪 Testing & Quality Assurance](#-testing--quality-assurance)
+- [🛡️ Privacy & Security Guarantees](#️-privacy--security-guarantees)
+- [📄 License](#-license)
 
 ---
 
-### 3. Grounded AI Bug Detection & Evidence-Backed Review Findings
-Ask targeted questions (e.g., authentication flaws, crash risks, unhandled exceptions) or run comprehensive security sweeps. CodeIntel retrieves isolated semantic code context and coordinates with state-of-the-art LLMs (Gemini, Groq, OpenAI) to identify genuine defects.
+## ⚡ At a Glance (30-Second Overview)
 
-![AI Code Review & Grounded Bug Finding Card](docs/images/03-ai-code-review-and-bug-finding.png)
+```
+       1. Enter GitHub URL ➔ 2. Cloned & Discovered ➔ 3. Visual Architecture ➔ 4. AI Bug Review
+  [ https://github.com/... ] ➔ [ Isolated Workspace ] ➔ [ Mermaid Flowchart ] ➔ [ Grounded Bugs & Fixes ]
+```
 
-* **Severity & Confidence Scoring**: Bugs are triaged by severity (`🔴 HIGH`, `🟠 MEDIUM`, `🟡 LOW`) with statistical confidence percentages.
-* **Grounded File & Line Evidence**: Direct link to the culprit file and line range (`📄 Backend/routers/anomalies.py:357-375`).
-* **Root Cause & Impact Analysis**: Explains why the code fails, the real-world operational consequence, and provides a ready-to-merge code fix snippet.
-* **Interactive Source Modal**: Clicking the evidence tag opens an in-browser code viewer with highlighted culprit lines.
+1. **Clone Any Repository**: Enter a GitHub repository URL to clone it locally into an isolated workspace directory (`backend/workspace/`).
+2. **Inspect Architecture**: Automatically detects tech stacks (FastAPI, React, Django, Express, Go, etc.) and visualizes project hierarchy in interactive Mermaid diagrams.
+3. **Embed & Index**: Splits files into structure-aware code chunks and stores 384-dimensional dense vectors in persistent **ChromaDB**.
+4. **Detect Defects with AI**: Ask custom queries or trigger security sweeps. LLMs analyze retrieved semantic chunks and highlight genuine defects with exact file & line evidence.
+5. **In-Browser IDE Viewer**: Click any finding to inspect source code lines and AST class/method graphs directly in your browser.
 
 ---
 
-## 🏗️ End-to-End System Architecture
+## ✨ Key Features
+
+| Feature | Description |
+| :--- | :--- |
+| **🔒 Sandboxed Git Isolation** | Clones repositories into isolated directories without altering host packages or executing untrusted code. |
+| **📊 Interactive Mermaid Diagrams** | Zoom, pan, and copy syntax for topological project architecture and AST class/function call graphs. |
+| **🧠 Local Dense Embeddings** | Computes vector embeddings locally on CPU/GPU via `SentenceTransformers (all-MiniLM-L6-v2)` — zero API costs or code leakage. |
+| **🗄️ Multi-Tenant Vectorstore** | Partitioned ChromaDB collections enforce strict `repository_id` filtering, preventing cross-project code contamination. |
+| **🤖 Multi-Provider LLM Gateway** | Supports **Google Gemini** (Gemini 2.5/3.6 Flash), **Groq Cloud** (Llama 3.3, GPT-OSS), and **OpenAI** (GPT-4o, GPT-4o-mini). |
+| **🛡️ Anti-Hallucination Guardrails** | Strict validation verifies that flagged files and line bounds physically exist in the repository before displaying findings. |
+| **💻 High-Contrast Developer UI** | Modern dark-mode interface built with **Plus Jakarta Sans**, **JetBrains Mono**, real-time backend status, and glassmorphic aesthetics. |
+
+---
+
+## 🚀 60-Second Quick Start (Beginner Friendly)
+
+If you have already installed Python and Node.js dependencies, you can launch CodeIntel with a single command:
+
+### On Windows
+
+* **Option 1 (One-Click Batch Script)**:  
+  Double-click `start.bat` in the repository root, or run:
+  ```cmd
+  .\start.bat
+  ```
+
+* **Option 2 (One-Click PowerShell Script)**:  
+  Right-click `start.ps1` and select **Run with PowerShell**, or run:
+  ```powershell
+  .\start.ps1
+  ```
+
+### On macOS / Linux
+
+Open two terminal tabs:
+
+```bash
+# Terminal 1: Backend
+cd backend && source .venv/bin/activate && uvicorn app.main:app --reload --port 8000
+
+# Terminal 2: Frontend
+cd frontend && npm run dev
+```
+
+Open your browser to:
+* **Frontend Application**: [http://localhost:5173](http://localhost:5173)
+* **Backend API Docs (Swagger UI)**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+---
+
+## 📋 Complete Step-by-Step Installation
+
+### Prerequisites
+
+Ensure you have the following installed on your machine:
+* **Git**: Installed and available in terminal (`git --version`)
+* **Python**: Version `3.10` or higher (`python --version` or `py --version`)
+* **Node.js**: Version `18.0.0` or higher (`node -v` and `npm -v`)
+
+---
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/Yashgade08/CodeIntel.git
+cd CodeIntel
+```
+
+---
+
+### 2. Backend Setup (FastAPI & Vectorstore)
+
+Navigate to the `backend` folder:
+
+```bash
+cd backend
+```
+
+#### Step 2.1: Create & Activate Virtual Environment
+
+* **On Windows (PowerShell)**:
+  ```powershell
+  python -m venv .venv
+  .\.venv\Scripts\Activate.ps1
+  ```
+  *(If PowerShell shows a script execution error, run: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`)*
+
+* **On Windows (Command Prompt / CMD)**:
+  ```cmd
+  python -m venv .venv
+  .\.venv\Scripts\activate.bat
+  ```
+
+* **On macOS / Linux**:
+  ```bash
+  python3 -m venv .venv
+  source .venv/bin/activate
+  ```
+
+#### Step 2.2: Install Backend Dependencies
+
+```bash
+pip install --upgrade pip
+pip install -e ".[all]"
+```
+
+#### Step 2.3: Configure `.env` File
+
+Copy the example configuration file:
+
+* **Windows**: `copy .env.example .env`
+* **macOS / Linux**: `cp .env.example .env`
+
+Open `backend/.env` in your text editor and add at least one free LLM API key:
+
+```env
+# Choose provider: gemini | groq | openai
+LLM_PROVIDER=gemini
+
+# Google Gemini (Recommended - Free API key from https://aistudio.google.com/app/apikey)
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-2.5-flash
+
+# Embeddings (Local SentenceTransformers - runs offline on CPU)
+EMBEDDING_MODEL=all-MiniLM-L6-v2
+CHROMA_PERSIST_DIRECTORY=./data/chroma
+```
+
+#### Step 2.4: Start Backend Server
+
+```bash
+# Run uvicorn server on port 8000
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+> **Verification**: Visit [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health) in your browser. You should see:
+> `{"status":"ok","service":"codeintel-backend"}`
+
+---
+
+### 3. Frontend Setup (React & Vite)
+
+Open a **new terminal window** and navigate to `frontend`:
+
+```bash
+cd frontend
+```
+
+#### Step 3.1: Install Node Dependencies
+
+```bash
+npm install
+```
+
+#### Step 3.2: Launch Vite Dev Server
+
+```bash
+npm run dev
+```
+
+> **Verification**: Open [http://localhost:5173](http://localhost:5173) in your browser. You will see the CodeIntel dashboard with a green `🟢 FastAPI Online (8000)` indicator in the top navigation bar!
+
+---
+
+## 🔑 Environment Configuration (`.env`)
+
+CodeIntel supports three major LLM providers. You only need an API key for **one** provider to get started:
+
+| Provider | Model | Where to get Free API Key | Configuration in `backend/.env` |
+| :--- | :--- | :--- | :--- |
+| **Google Gemini** *(Recommended)* | `gemini-2.5-flash` / `gemini-3.6-flash` | [Google AI Studio](https://aistudio.google.com/app/apikey) (Free) | `LLM_PROVIDER=gemini`<br>`GEMINI_API_KEY=AIzaSy...` |
+| **Groq Cloud** *(Ultra-fast)* | `openai/gpt-oss-120b` / `llama-3.3-70b-versatile` | [Groq Console](https://console.groq.com/keys) (Free) | `LLM_PROVIDER=groq`<br>`GROQ_API_KEY=gsk_...` |
+| **OpenAI** | `gpt-4o-mini` / `gpt-4o` | [OpenAI Platform](https://platform.openai.com/api-keys) | `LLM_PROVIDER=openai`<br>`OPENAI_API_KEY=sk-...` |
+
+### Full `.env` Reference
+
+```env
+# Application Settings
+APP_NAME=CodeIntel
+APP_VERSION=0.1.0
+DEBUG=false
+HOST=127.0.0.1
+PORT=8000
+
+# LLM Gateway Settings
+LLM_PROVIDER=gemini
+GEMINI_API_KEY=your_key_here
+GEMINI_MODEL=gemini-2.5-flash
+
+# Optional alternative providers
+GROQ_API_KEY=your_groq_key_here
+GROQ_MODEL=openai/gpt-oss-120b
+OPENAI_API_KEY=your_openai_key_here
+OPENAI_MODEL=gpt-4o-mini
+
+# Vector Database & Embeddings
+EMBEDDING_PROVIDER=local
+EMBEDDING_MODEL=all-MiniLM-L6-v2
+CHROMA_PERSIST_DIRECTORY=./data/chroma
+
+# Ingestion Constraints
+REPO_STORAGE_PATH=./storage/repos
+MAX_FILE_SIZE_BYTES=1048576
+MAX_REPO_SIZE_BYTES=104857600
+```
+
+---
+
+## 🖥️ How to Use CodeIntel (User Guide)
+
+Follow this 5-step workflow to analyze any codebase:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                          CODEINTEL WORKFLOW                            │
+├──────────────┬──────────────┬──────────────┬─────────────┬─────────────┤
+│   STEP 1     │    STEP 2    │    STEP 3    │   STEP 4    │   STEP 5    │
+│  Clone Repo  │ Explore AST  │ Index Vector │ AI Review   │ Inspect IDE │
+│  & File Tree │  & Mermaid   │  in Chroma   │ Bug Triage  │ Source Code │
+└──────────────┴──────────────┴──────────────┴─────────────┴─────────────┘
+```
+
+### Step 1: Clone & Discover Repository
+1. In the input box at the top, paste any public GitHub URL (e.g. `https://github.com/psf/requests` or `https://github.com/fastapi/fastapi`).
+2. Click **🔬 Clone & Discover Files**.
+3. CodeIntel clones the repository into a unique sandboxed workspace, indexes all source files, and displays file count and language breakdown.
+
+### Step 2: Explore Architecture & File Structure
+* **Architecture Diagram**: View the generated Mermaid.js flowchart showing project modules, entrypoints, and tech stack tags.
+* **Diagram Controls**: Use `🔍 +`, `🔍 -`, and `Reset` to zoom, or click **📋 Copy Syntax** to copy the raw Mermaid code.
+* **File Explorer**: Search files by name/extension or filter by language (`PY`, `TS`, `TSX`, `JS`, etc.). Click **📊 Structure** on any file to generate an AST class & method diagram.
+
+### Step 3: Index Vectors into ChromaDB
+1. Locate the **Step 2: Vector Embedding & ChromaDB Indexing** card.
+2. Click **⚡ Index Repository**.
+3. CodeIntel parses code into structure-aware chunks, creates 384-dimensional embeddings, and stores them in ChromaDB. When done, you will see a green **"ChromaDB Vectorstore Ready"** confirmation with chunk and embedding counts.
+
+### Step 4: Run AI Bug Detection
+1. Scroll to **🔍 AI Code Review & Bug Detection**.
+2. Type a specific question (e.g., *"Find authentication bypasses or null pointer errors"*) or click one of the quick prompt chips:
+   * *Find potential bugs and logic errors*
+   * *Find security & injection vulnerabilities*
+   * *Find unhandled exceptions and crash risks*
+   * *Find memory & resource leaks*
+3. Click **🐞 Find Bugs**.
+4. The engine executes vector similarity search, retrieves relevant context chunks, queries the LLM, validates evidence lines against actual files, and renders formatted bug findings.
+
+### Step 5: Inspect Culprit Code in In-Browser IDE
+1. On any bug card, click the **📄 file_path:start-end ➔** link.
+2. A high-contrast code modal pops up showing the source code file with culprit bug lines highlighted in crimson.
+3. Switch to the **📊 AST Structure** tab inside the modal to visualize classes, functions, and internal calls.
+
+---
+
+## ❓ Troubleshooting & Common Issues
+
+### 1. "Failed to connect to backend server / Error Code: NETWORK_ERROR"
+* **Cause**: The FastAPI backend server is not running on port 8000.
+* **Fix**: Open a terminal in the `backend` folder and start the backend:
+  ```powershell
+  cd backend
+  .\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+  ```
+  Check that [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health) returns `status: ok`. The top navbar will display `🟢 FastAPI Online (8000)`.
+
+### 2. PowerShell: "Running scripts is disabled on this system"
+* **Cause**: Windows PowerShell default ExecutionPolicy blocks running unsigned `.ps1` scripts.
+* **Fix**: Run PowerShell with execution policy bypass:
+  ```powershell
+  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+  ```
+  Or invoke Python directly without activating the virtual environment:
+  ```powershell
+  .\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+  ```
+
+### 3. "Git is not recognized as an internal or external command"
+* **Cause**: Git is not installed or not in your system `PATH`.
+* **Fix**: Download and install Git from [git-scm.com](https://git-scm.com). During installation, ensure the option **"Add Git to PATH"** is selected. Restart your terminal after installation.
+
+### 4. "Invalid or missing LLM API Key"
+* **Cause**: Bug detection requires an API key for the chosen `LLM_PROVIDER` in `backend/.env`.
+* **Fix**: 
+  1. Open [Google AI Studio](https://aistudio.google.com/app/apikey) and generate a free API key.
+  2. In `backend/.env`, set:
+     ```env
+     LLM_PROVIDER=gemini
+     GEMINI_API_KEY=AIzaSyYourActualKeyHere
+     ```
+  3. Restart the backend server.
+
+### 5. Port 8000 or 5173 already in use
+* Check which process is using port 8000:
+  * **Windows**: `Get-NetTCPConnection -LocalPort 8000`
+  * **macOS/Linux**: `lsof -i :8000`
+* You can run Uvicorn on another port (e.g. `--port 8001`), and update the target port in `frontend/vite.config.ts`.
+
+---
+
+## 🏗️ System Architecture & RAG Pipeline
 
 ```mermaid
 flowchart TD
@@ -62,400 +360,58 @@ flowchart TD
     classDef llmStyle fill:#db2777,stroke:#f472b6,stroke-width:2px,color:#fff;
     classDef outputStyle fill:#059669,stroke:#34d399,stroke-width:2px,color:#fff;
 
-    URL["🔗 GitHub Repository URL"]:::inputStyle --> CLONE["📦 Git Clone Engine (backend/workspace/)"]:::processStyle
+    URL["🔗 GitHub Repository URL"]:::inputStyle --> CLONE["📦 Sandboxed Git Clone\n(backend/workspace/)"]:::processStyle
     
-    CLONE --> SCAN["📁 Source File Scanner (Filters .git, node_modules)"]:::processStyle
-    CLONE --> GRAPH["📊 Framework Detector & Mermaid Graph Generator"]:::processStyle
+    CLONE --> SCAN["📁 AST & File Scanner\n(Filters dependencies & binaries)"]:::processStyle
+    CLONE --> GRAPH["📊 Framework Detector &\nMermaid Architecture Generator"]:::processStyle
     
-    SCAN --> CHUNK["🧩 Structure-Aware Chunker (1-Indexed Line Offsets)"]:::processStyle
+    SCAN --> CHUNK["🧩 Structure-Aware Chunker\n(Preserves 1-indexed line offsets)"]:::processStyle
     
-    CHUNK --> EMBED["🔢 Dense Embeddings (all-MiniLM-L6-v2)"]:::vectorStyle
+    CHUNK --> EMBED["🔢 Dense Local Embeddings\n(all-MiniLM-L6-v2)"]:::vectorStyle
     EMBED --> CHROMA[("🗄️ Persistent ChromaDB Vectorstore\n(Partitioned by repository_id)")]:::vectorStyle
 
-    USER_QUERY["🔍 Bug Query / Quick Review Sweep"]:::inputStyle --> RETRIEVE["🎯 Multi-Step Semantic Retriever\n(Cosine Similarity Search)"]:::vectorStyle
+    USER_QUERY["🔍 Bug Query / Preset Sweep"]:::inputStyle --> RETRIEVE["🎯 Multi-Step Semantic Retriever\n(Cosine Similarity Search)"]:::vectorStyle
     
-    CHROMA -.->|Top-K Code Chunks| RETRIEVE
+    CHROMA -.->|Top-K Context Chunks| RETRIEVE
     
-    RETRIEVE --> PROMPT["📝 Grounded Bug Prompt Assembly\n(Strict JSON Schema & System Directives)"]:::processStyle
+    RETRIEVE --> PROMPT["📝 Grounded Review Prompt Assembly\n(Strict JSON Schema Directive)"]:::processStyle
     
     PROMPT --> LLM_ROUTER{"🤖 Multi-Provider LLM Gateway"}:::llmStyle
-    LLM_ROUTER -->|Option A| GEMINI["Google Gemini 2.5 / 3.6 Flash"]:::llmStyle
-    LLM_ROUTER -->|Option B| GROQ["Groq Cloud (GPT-OSS / Llama 3.3)"]:::llmStyle
-    LLM_ROUTER -->|Option C| OPENAI["OpenAI GPT-4o / GPT-4o-mini"]:::llmStyle
+    LLM_ROUTER -->|Google| GEMINI["Google Gemini Flash"]:::llmStyle
+    LLM_ROUTER -->|Groq| GROQ["Groq Cloud Llama / GPT-OSS"]:::llmStyle
+    LLM_ROUTER -->|OpenAI| OPENAI["OpenAI GPT-4o-mini"]:::llmStyle
     
-    GEMINI & GROQ & OPENAI --> VALIDATOR["🛡️ Hallucination Guardrail & Line Validator\n(Verifies File Exists & Lines Bound)"]:::outputStyle
+    GEMINI & GROQ & OPENAI --> VALIDATOR["🛡️ Anti-Hallucination Guardrail\n(Verifies files & line bounds on disk)"]:::outputStyle
     
-    VALIDATOR --> DASHBOARD["✨ CodeIntel Interactive UI\n(Bug Cards + Source Code Viewer Modal)"]:::outputStyle
+    VALIDATOR --> DASHBOARD["✨ CodeIntel Modern UI\n(Bug Cards + Evidence Line Modal)"]:::outputStyle
     GRAPH --> DASHBOARD
-```
-
----
-
-## ⚙️ Core Technical Deep Dive
-
-```mermaid
-flowchart LR
-    subgraph UI ["🖥️ Frontend (React 19 + TypeScript + Vite)"]
-        DASH["GitHubValidatePage"]
-        VIEWER["MermaidViewer"]
-        MODAL["SourceCodeModal"]
-    end
-
-    subgraph API ["⚡ FastAPI Backend Gateway"]
-        C_API["/api/github/clone"]
-        F_API["/api/github/repositories/{id}/files"]
-        G_API["/api/github/repositories/{id}/structure-graph"]
-        I_API["/api/github/repositories/{id}/index"]
-        B_API["/api/github/repositories/{id}/bugs/analyze"]
-        S_API["/api/github/repositories/{id}/file-content"]
-    end
-
-    subgraph ENGINES ["🧠 Core Processing Engines"]
-        SCANNER["SourceScanner"]
-        CHUNKER["CodeChunker"]
-        EMBEDDER["LocalEmbeddings (SentenceTransformers)"]
-        STORE["ChromaStore (ChromaDB)"]
-        RETRIEVER["CodeRetriever"]
-        LLM_GW["LLM Gateway (Gemini / Groq / OpenAI)"]
-        GUARD["HallucinationValidator"]
-    end
-
-    DASH --> C_API & F_API & I_API & B_API
-    VIEWER --> G_API
-    MODAL --> S_API
-
-    C_API --> SCANNER
-    G_API --> SCANNER
-    I_API --> SCANNER --> CHUNKER --> EMBEDDER --> STORE
-    B_API --> RETRIEVER --> STORE
-    RETRIEVER --> LLM_GW --> GUARD
-```
-
-### 1. Isolated Git Cloning & Workspace Security
-* **Path Traversal Defense**: All repository identifiers and target paths are validated against malicious directory traversal (`..` sequences, absolute Windows/POSIX path injections).
-* **Deterministic Isolation**: Clones are partitioned inside `backend/workspace/{owner}_{repo}_{timestamp}_{hash}/`.
-* **Zero Host Contamination**: Repositories are cloned using native Git subprocesses without mutating local packages or executing arbitrary install scripts.
-
-### 2. Recursive File Discovery & Language Parsing
-* **Exclusion Filters**: Automatically prunes noisy, auto-generated, or heavy dependencies:
-  `.git`, `node_modules`, `__pycache__`, `.venv`, `dist`, `build`, `coverage`, `.pytest_cache`, `.mypy_cache`, `.next`, `target`, `bin`, `.idea`, `.vscode`.
-* **Language Classification**: Maps file extensions (`.py`, `.ts`, `.tsx`, `.js`, `.jsx`, `.java`, `.go`, `.rs`, `.c`, `.cpp`, `.sql`, etc.) into categorized metrics.
-* **Safety Bounds**: Skips binary blobs, minified bundles, and files larger than 1MB to optimize memory overhead.
-
-### 3. Topological Mermaid.js Architecture Visualizer
-* **Framework Fingerprinting**: Inspects root and subfolder manifests (`package.json`, `pyproject.toml`, `requirements.txt`, `go.mod`, `Cargo.toml`, `pom.xml`):
-  * **Python**: FastAPI, Flask, Django
-  * **JavaScript/TypeScript**: React, Next.js, Vite, Vue
-  * **Systems**: Go, Rust, Java
-* **Graph Synthesis**: Emits dark-mode Mermaid `flowchart TD` code organizing directories into interconnected subsystems:
-  * `ROOT(["📦 owner/repo"])`
-  * Subgraphs for `⚡ Backend`, `🌐 Frontend`, `🧪 Tests`, `📖 Documentation`
-  * Connects essential specifications: `⚙️ Root Config & Specs` (`README.md`, `docker-compose.yml`, `package.json`, `pyproject.toml`)
-
-### 4. Structure-Aware Code Chunking
-Standard text chunkers break syntax mid-function. CodeIntel utilizes structure-aware chunking:
-* **Line-Accurate Tracking**: Captures exact 1-indexed `start_line` and `end_line` offsets.
-* **Deterministic Chunk Identifiers**: Computes SHA256 hashes based on `(repository_id, file_path, start_line, end_line, content)` to ensure idempotency on re-indexing.
-* **Chunk Overlap Preservation**: Maintains 20-line boundary context to retain symbol definitions and scope.
-
-### 5. Multi-Tenant Vectorstore & Isolated Semantic Retrieval
-* **Local Dense Embeddings**: Embeds chunks using `sentence-transformers/all-MiniLM-L6-v2`, producing normalized 384-dimensional dense vectors on CPU/GPU without external API latency or costs.
-* **Partitioned ChromaDB**: Backed by persistent SQLite storage in `backend/storage/codeintel.db` and Chroma collections.
-* **Cross-Repo Isolation**: Every vector query enforces mandatory metadata filtering:
-  ```python
-  collection.query(
-      query_embeddings=[query_vector],
-      n_results=top_k,
-      where={"repository_id": clean_repository_id}
-  )
-  ```
-  This guarantees code chunks from one repository can **never** bleed into another repository's analysis.
-
-### 6. Multi-Provider LLM Gateway & Structured JSON Directives
-* **Supported Providers**:
-  * **Google Gemini**: `gemini-2.5-flash` / `gemini-3.6-flash`
-  * **Groq Cloud**: High-speed inference (`openai/gpt-oss-120b`, `llama-3.3-70b-versatile`)
-  * **OpenAI**: `gpt-4o`, `gpt-4o-mini`
-* **Structured JSON Enforcement**: LLMs are instructed with strict system schemas:
-  ```json
-  {
-    "summary": "High-level summary of review findings",
-    "total_findings": 1,
-    "findings": [
-      {
-        "title": "Concise defect title",
-        "severity": "HIGH | MEDIUM | LOW",
-        "confidence": 0.85,
-        "file_path": "relative/path/to/file.py",
-        "start_line": 357,
-        "end_line": 375,
-        "description": "Why this is a problem",
-        "root_cause": "Underlying mechanism causing the bug",
-        "impact": "Operational consequence if unpatched",
-        "suggested_fix": "python\ncode snippet\n"
-      }
-    ]
-  }
-  ```
-
-### 7. Hallucination Control & Grounding Guardrails
-
-```mermaid
-flowchart TD
-    RAW_BUG["Raw Bug Finding from LLM"] --> CHECK_FILE{"Does file_path exist in workspace?"}
-    
-    CHECK_FILE -- No --> DROP_HALLUCINATION["❌ Drop Finding (Hallucinated File)"]
-    CHECK_FILE -- Yes --> CHECK_LINES{"Are start_line & end_line within bounds?"}
-    
-    CHECK_LINES -- No --> ADJUST_OR_DROP["⚠️ Clamp Lines or Drop (Out of Bounds)"]
-    CHECK_LINES -- Yes --> CHECK_CONF{"Is confidence >= 0.50?"}
-    
-    CHECK_CONF -- No --> DROP_LOW_CONF["❌ Filter Finding (Low Confidence)"]
-    CHECK_CONF -- Yes --> VERIFIED_FINDING["✅ Verified Grounded Bug Finding"]
-```
-
-* **Filesystem Grounding**: Every reported `file_path` is checked against the actual cloned disk. If the LLM invents a non-existent file, it is immediately pruned.
-* **Line Range Guard**: Validates that $1 \le \text{start\_line} \le \text{end\_line} \le \text{total\_lines(file)}$.
-* **Confidence Gating**: Filters out speculative or ungrounded claims with confidence scores below 50%.
-
----
-
-## 📁 Repository Directory Structure
-
-```text
-Codeintel/
-├── backend/
-│   ├── app/
-│   │   ├── api/                     # REST API route handlers
-│   │   │   ├── github_clone.py      # POST /clone: URL validation & Git cloning
-│   │   │   ├── github_files.py      # GET /files: Recursive file & language scanner
-│   │   │   ├── github_graph.py      # GET /structure-graph, GET /workspaces
-│   │   │   ├── github_index.py      # POST /index: Vector embedding & ChromaDB storage
-│   │   │   ├── github_bugs.py       # POST /bugs/analyze: Semantic RAG bug detection
-│   │   │   ├── github_source.py     # GET /file-content: Code modal line viewer
-│   │   │   └── github_validate.py   # Legacy validation route
-│   │   ├── bug_detection/           # RAG orchestrator & anti-hallucination engine
-│   │   │   ├── engine.py            # End-to-end RAG review coordinator
-│   │   │   ├── prompts.py           # Grounded review prompts & system instructions
-│   │   │   └── validator.py         # Grounding & line-boundary verification
-│   │   ├── chunking/                # Structure-aware code splitter
-│   │   │   └── code_chunker.py      # Line-bound chunker with SHA256 deduplication
-│   │   ├── core/                    # Core application settings
-│   │   │   └── config.py            # Pydantic BaseSettings & env resolution
-│   │   ├── embeddings/              # Dense vector embedding providers
-│   │   │   ├── base.py              # Abstract embedding interface
-│   │   │   └── local_embeddings.py  # Local SentenceTransformers (all-MiniLM-L6-v2)
-│   │   ├── llm/                     # Multi-provider LLM clients
-│   │   │   ├── base.py              # Base LLM provider contract
-│   │   │   ├── gemini_provider.py   # Google Gemini API client
-│   │   │   └── openai_provider.py   # OpenAI / Groq Cloud compatible client
-│   │   ├── retrieval/               # Isolated semantic retrieval
-│   │   │   └── code_retriever.py    # Vector similarity search with repo isolation
-│   │   ├── scanner/                 # Code discovery and filtering
-│   │   │   └── source_scanner.py    # Supported file discovery & content reader
-│   │   ├── vectorstore/             # ChromaDB client & collection management
-│   │   │   └── chroma_store.py      # Persistent vector database interface
-│   │   └── main.py                  # FastAPI application entrypoint & CORS setup
-│   ├── data/                        # Persistent ChromaDB vector collections
-│   ├── storage/                     # SQLite databases and session caches
-│   ├── tests/                       # Automated pytest test suites
-│   │   ├── fixtures/buggy_repo/     # Deliberately buggy repository test fixture
-│   │   ├── test_ai_bug_detection.py # Full RAG & Hallucination test suite
-│   │   └── test_step3_files.py      # File scanning regression tests
-│   ├── workspace/                   # Isolated local Git clones
-│   ├── pyproject.toml               # Python project configuration & dependencies
-│   └── .env                         # Environment variables and API keys
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/              # UI components
-│   │   │   └── MermaidViewer.tsx    # Interactive Mermaid diagram canvas with controls
-│   │   ├── pages/                   # Application views
-│   │   │   └── GitHubValidatePage.tsx# Main dashboard (Clone, Graph, Index, Review)
-│   │   ├── App.tsx                  # Root application router
-│   │   └── main.tsx                 # React DOM entrypoint
-│   ├── package.json                 # Frontend dependencies (React 19, Mermaid, Vite)
-│   └── vite.config.ts               # Vite configuration with backend proxy
-│
-├── docs/
-│   └── images/                      # High-resolution screenshots for documentation
-│       ├── 01-repo-intelligence-dashboard.png
-│       ├── 02-mermaid-architecture-and-indexing.png
-│       └── 03-ai-code-review-and-bug-finding.png
-└── README.md                        # Master project documentation
 ```
 
 ---
 
 ## 📡 REST API Reference
 
-| Method | Endpoint | Description | Key Payload / Parameters |
+The backend exposes a fully documented OpenAPI / Swagger interface at `http://127.0.0.1:8000/docs`.
+
+| Method | Endpoint | Description | Request Body / Parameters |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/github/clone` | Validates URL, clones repo to local workspace, returns file count | `{"url": "https://github.com/owner/repo"}` |
-| `GET` | `/api/github/workspaces` | Lists all existing cloned workspaces with detected tech stacks | *None* |
-| `GET` | `/api/github/repositories/{id}/files` | Scans workspace directory and returns complete file hierarchy | *Path param: `id`* |
-| `GET` | `/api/github/repositories/{id}/structure-graph` | Generates Mermaid flowchart syntax and detected frameworks | *Path param: `id`* |
-| `POST` | `/api/github/repositories/{id}/index` | Chunks source files, generates embeddings, stores in ChromaDB | *Path param: `id`* |
-| `POST` | `/api/github/repositories/{id}/bugs/analyze` | Executes semantic RAG retrieval and LLM bug analysis | `{"query": "Find logic and security bugs"}` |
-| `GET` | `/api/github/repositories/{id}/file-content` | Retrieves source code lines with context for modal display | `?path=app.py&start_line=10&end_line=25` |
+| `GET` | `/api/health` | Service health check | *None* |
+| `POST` | `/api/github/clone` | Validates GitHub URL, clones to isolated workspace | `{"url": "https://github.com/owner/repo"}` |
+| `GET` | `/api/github/workspaces` | Lists all existing cloned workspaces | *None* |
+| `GET` | `/api/github/repositories/{id}/files` | Scans workspace directory and returns complete file hierarchy | *Path: `id`* |
+| `GET` | `/api/github/repositories/{id}/structure-graph` | Generates Mermaid flowchart syntax and detected tech stack | *Path: `id`* |
+| `POST` | `/api/github/repositories/{id}/index` | Chunks files, generates embeddings, stores in ChromaDB | *Path: `id`* |
+| `POST` | `/api/github/repositories/{id}/bugs/analyze` | Executes semantic RAG retrieval and LLM bug analysis | `{"query": "Find unhandled exceptions"}` |
+| `GET` | `/api/github/repositories/{id}/file-content` | Retrieves source code lines with context for modal viewer | `?path=main.py&start_line=1&end_line=50` |
+| `GET` | `/api/github/repositories/{id}/file-structure` | Generates AST Mermaid diagram for individual file | `?path=main.py&format=flowchart` |
 
 ---
 
-## 🚀 Quickstart & Setup Guide
+## 🧪 Testing & Quality Assurance
 
-### ⚡ Quick Run Commands
+CodeIntel is equipped with automated unit and integration tests:
 
-If dependencies are already installed, run the services using either the one-click scripts or two separate terminals:
-
-#### Option A: One-Click Launchers (Windows)
-* **Double-click `start.bat`** or run in terminal:
-  ```cmd
-  .\start.bat
-  ```
-* **Or run in PowerShell**:
-  ```powershell
-  .\start.ps1
-  ```
-
-#### Option B: Separate Terminals
-
-**Terminal 1 — Backend (FastAPI)**
-```bash
-cd backend
-
-# Windows (PowerShell)
-.\.venv\Scripts\Activate.ps1
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-
-# Windows (Command Prompt)
-.\.venv\Scripts\activate.bat
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-
-# macOS / Linux
-source .venv/bin/activate
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
-> **Backend URL**: `http://127.0.0.1:8000`  
-> **API Documentation (Swagger UI)**: `http://127.0.0.1:8000/docs`
-
-**Terminal 2 — Frontend (Vite + React)**
-```bash
-cd frontend
-npm run dev
-```
-> **Frontend URL**: `http://localhost:5173`
-
----
-
-### Prerequisites
-* **Git**: Installed and available on system `PATH`
-* **Python**: `3.10` or higher (Python `3.11` recommended)
-* **Node.js**: `18.0.0` or higher with `npm`
-
----
-
-### Step 1: Clone the CodeIntel Repository
-```bash
-git clone https://github.com/your-username/Codeintel.git
-cd Codeintel
-```
-
----
-
-### Step 2: Backend Setup
-```bash
-cd backend
-
-# Create and activate a virtual environment
-python -m venv .venv
-
-# On Windows (PowerShell):
-.\.venv\Scripts\Activate.ps1
-
-# On Linux / macOS:
-source .venv/bin/activate
-
-# Install dependencies
-pip install -e ".[all]"
-```
-
-#### Configure Environment Variables (`backend/.env`)
-Create a `.env` file inside the `backend/` directory:
-
-```env
-# ==============================================================================
-# LLM Provider Configuration
-# Supported providers: gemini | groq | openai
-# ==============================================================================
-LLM_PROVIDER=gemini
-
-# Option A: Google Gemini (Free API Key: https://aistudio.google.com/app/apikey)
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-2.5-flash
-
-# Option B: Groq Cloud (Free API Key: https://console.groq.com/keys)
-GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=openai/gpt-oss-120b
-
-# Option C: OpenAI (https://platform.openai.com/)
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4o-mini
-
-# ==============================================================================
-# Vector Database & Embedding Settings
-# ==============================================================================
-EMBEDDING_MODEL=all-MiniLM-L6-v2
-CHROMA_PERSIST_DIRECTORY=./data/chroma
-```
-
-#### Launch Backend Server
-
-Run the backend server using Uvicorn:
-
-* **Windows (PowerShell)**:
-  ```powershell
-  .\.venv\Scripts\Activate.ps1
-  uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-  ```
-  *(Or directly without activating venv: `.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000`)*
-
-* **Windows (Command Prompt / CMD)**:
-  ```cmd
-  .\.venv\Scripts\activate.bat
-  uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-  ```
-
-* **macOS / Linux**:
-  ```bash
-  source .venv/bin/activate
-  uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-  ```
-
-* **Backend API URL**: `http://127.0.0.1:8000`
-* **Interactive API Documentation (Swagger)**: `http://127.0.0.1:8000/docs`
-
----
-
-### Step 3: Frontend Setup
-Open a **second terminal window**:
-
-```bash
-cd frontend
-
-# Install dependencies (React 19, Mermaid, Vite, Tailwind)
-npm install
-
-# Start Vite development server
-npm run dev
-```
-
-* **Frontend Dashboard URL**: `http://localhost:5173`
-
----
-
-## 🧪 Verification & Automated Testing
-
-CodeIntel includes automated unit and integration tests covering source scanning, chunking, vector isolation, and RAG bug detection:
+### Running Backend Tests (pytest)
 
 ```bash
 cd backend
@@ -466,11 +422,12 @@ pytest -v
 # Run AI bug detection & RAG retrieval tests specifically
 pytest tests/test_ai_bug_detection.py -v
 
-# Run Step 3 file scanner regression tests
-pytest tests/test_step3_files.py -v
+# Run AST file structure tests
+pytest tests/test_file_structure.py -v
 ```
 
-### Frontend Type Safety & Production Build
+### Running Frontend Type Checks & Production Build
+
 ```bash
 cd frontend
 
@@ -483,12 +440,64 @@ npm run build
 
 ---
 
-## 🛡️ Security & Privacy Guarantees
-* **Air-Gapped Embedding Computation**: Code chunk embeddings are computed locally via SentenceTransformers on your local CPU/GPU. No source code chunks are transmitted to third-party embedding APIs.
-* **Tenant Workspace Isolation**: Vector queries strictly mandate `repository_id` filters, preventing cross-project code contamination.
-* **Controlled LLM Transmission**: Only the most relevant retrieved context chunks (`Top-K`) matching the user's specific bug query are transmitted to the configured LLM for grounded review.
+## 🛡️ Privacy & Security Guarantees
+
+* **Zero Code Transmission During Embedding**: Dense vector embeddings are generated completely offline using SentenceTransformers running on your local machine. Source code chunks are **never** transmitted to third-party embedding APIs.
+* **Strict Tenant Isolation**: All ChromaDB vector searches enforce mandatory `repository_id` metadata filtering. Queries in one workspace can never return code chunks from another workspace.
+* **Targeted Context Transmission**: Only the specific `Top-K` retrieved code chunks matching the user's inquiry are sent to the LLM for final review.
+* **Path Traversal Protection**: All user-provided paths and repository identifiers are sanitized against relative traversal attacks (`..`) and absolute path escapes.
+
+---
+
+## 📁 Project Structure
+
+```text
+Codeintel/
+├── backend/
+│   ├── app/
+│   │   ├── api/                     # FastAPI route endpoints
+│   │   │   ├── github_clone.py      # /api/github/clone
+│   │   │   ├── github_files.py      # /api/github/repositories/{id}/files
+│   │   │   ├── github_graph.py      # /api/github/repositories/{id}/structure-graph
+│   │   │   ├── github_index.py      # /api/github/repositories/{id}/index
+│   │   │   ├── github_bugs.py       # /api/github/repositories/{id}/bugs/analyze
+│   │   │   ├── github_source.py     # /api/github/repositories/{id}/file-content
+│   │   │   └── github_file_structure.py # /api/github/repositories/{id}/file-structure
+│   │   ├── bug_detection/           # RAG orchestrator & anti-hallucination guardrail
+│   │   ├── chunking/                # Structure-aware code chunking with line offsets
+│   │   ├── core/                    # Config & application lifecycle settings
+│   │   ├── embeddings/              # Local SentenceTransformers embedding provider
+│   │   ├── llm/                     # Multi-provider LLM gateway (Gemini, Groq, OpenAI)
+│   │   ├── parser/                  # AST parser for classes, methods, and call graphs
+│   │   ├── retrieval/               # Isolated semantic vector retrieval
+│   │   ├── scanner/                 # Source file discovery & exclusion filtering
+│   │   ├── vectorstore/             # ChromaDB client & collection management
+│   │   └── main.py                  # FastAPI application entrypoint
+│   ├── data/                        # Persistent ChromaDB vector databases
+│   ├── storage/                     # Repositories metadata & session state
+│   ├── tests/                       # Automated test suites
+│   ├── workspace/                   # Sandboxed Git repositories
+│   └── pyproject.toml               # Python project configuration
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── MermaidViewer.tsx    # Interactive Mermaid diagram viewer
+│   │   ├── pages/
+│   │   │   └── GitHubValidatePage.tsx # Complete CodeIntel dashboard
+│   │   ├── index.css                # High-contrast CSS design tokens & glassmorphism
+│   │   └── main.tsx                 # React DOM mount point
+│   ├── index.html                   # HTML template with Google Fonts
+│   ├── package.json                 # Frontend dependencies (React 19, Vite, Tailwind)
+│   └── vite.config.ts               # Vite dev server with backend API proxy
+│
+├── start.bat                        # Windows 1-click batch launcher
+├── start.ps1                        # Windows 1-click PowerShell launcher
+└── README.md                        # Master documentation
+```
 
 ---
 
 ## 📄 License
+
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.

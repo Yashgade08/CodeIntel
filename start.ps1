@@ -7,7 +7,7 @@ $backendPath = Join-Path $PSScriptRoot "backend"
 $frontendPath = Join-Path $PSScriptRoot "frontend"
 
 Write-Host "[1/2] Launching Backend FastAPI Server..." -ForegroundColor Yellow
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$backendPath'; if (Test-Path '.\.venv\Scripts\Activate.ps1') { .\.venv\Scripts\Activate.ps1 }; uvicorn app.main:app --reload --host 127.0.0.1 --port 8000"
+Start-Process powershell -ArgumentList "-NoExit", "-ExecutionPolicy", "Bypass", "-Command", "Set-Location '$backendPath'; if (Test-Path '.\.venv\Scripts\python.exe') { & '.\.venv\Scripts\python.exe' -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000 } else { uvicorn app.main:app --reload --host 127.0.0.1 --port 8000 }"
 
 Write-Host "[2/2] Launching Frontend Vite Server..." -ForegroundColor Yellow
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$frontendPath'; npm run dev"
